@@ -57,7 +57,7 @@ uint16_t capturedata[CAPTURENUM] = { 0 };
 int32_t DiffTime[CAPTURENUM-1] = { 0 };
 //Mean difftime
 float MeanTime =0;
-int Rpm = 0;
+float Rpm = 0;
 
 
 
@@ -227,7 +227,7 @@ static void MX_TIM2_Init(void)
   sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
-  sConfigIC.ICFilter = 0;
+  sConfigIC.ICFilter = 4;
   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();
@@ -394,7 +394,7 @@ void encoderSpeedReaderCycle() {
 
 	//mean all 15 Diff
 	MeanTime =sum / (float)(CAPTURENUM-1);
-	Rpm = (1/MeanTime)*(1/12)*(10^6)*60*(1/64);
+	Rpm = (1.0/MeanTime)*(1.0/12.0)*(1000000.0)*60.0*(1.0/64.0);
 }
 uint64_t micros()
 {
